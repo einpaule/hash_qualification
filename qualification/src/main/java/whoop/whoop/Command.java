@@ -5,4 +5,6 @@ public abstract class Command {
   public String name;
 
   abstract String output();
+  abstract int estimateSteps(Drone drone, Destination destination, ProductType productType);
+
 }

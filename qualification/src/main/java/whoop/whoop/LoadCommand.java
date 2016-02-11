@@ -14,6 +14,12 @@ public class LoadCommand extends Command {
 
   public String output() {
     // return drone.id + ' ' + name + ' ' + wharehouse.id
-    return "";
+	return drone.id + " L " + warehouse.id + " " + productType.id + " " + quantity;
+  }
+
+  @Override
+  int estimateSteps(Drone drone, Destination destination, ProductType productType) {
+	// TODO Auto-generated method stub
+	return 0;
   }
 }

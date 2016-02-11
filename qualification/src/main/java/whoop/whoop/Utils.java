@@ -19,4 +19,8 @@ public class Utils {
   static double euclideanDistance(Drone drone, Order order) {
     return euclideanDistance(drone.x, drone.y, order.row, order.column);
   }
+
+  static double euclideanDistance(Warehouse wh, Order order) {
+    return euclideanDistance(wh.row, wh.column, order.row, order.column);
+  }
 }

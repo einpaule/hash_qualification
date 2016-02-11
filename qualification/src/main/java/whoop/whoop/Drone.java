@@ -1,18 +1,23 @@
 package whoop.whoop;
 
 public class Drone {
-  private int payload;
+  public int payload;
+  public int x;
+  public int y;
 
   public Drone(int payload){
     this.payload = payload;
+    this.x = 0;
+    this.y = 0;
   }
 
-  public void setPayload(int payload) {
-    this.payload = payload;
+  public int[] getPosition() {
+    return new int[]{x, y};
   }
 
-  public int getPayload() {
-    return payload;
+  public void setPosition(int[] position) {
+    this.x = position[0];
+    this.y = position[1];
   }
 
 }

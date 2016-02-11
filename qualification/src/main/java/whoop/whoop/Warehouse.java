@@ -2,33 +2,13 @@ package whoop.whoop;
 
 import java.util.Map;
 
-public class Warehouse {
-  protected int rowPosition;
-  protected int columnPosition;
-  protected Map<Product, Integer> storage;
+public class Warehouse extends Destination {
 
-  public int getRowPosition() {
-    return rowPosition;
-  }
+	public Map<Product, Integer> storage;
 
-  public void setRowPosition(int rowPosition) {
-    this.rowPosition = rowPosition;
-  }
-
-  public int getColumnPosition() {
-    return columnPosition;
-  }
-
-  public void setColumnPosition(int columnPosition) {
-    this.columnPosition = columnPosition;
-  }
-
-  public Map<Product, Integer> getStorage() {
-    return storage;
-  }
-
-  public void setStorage(Map<Product, Integer> storage) {
-    this.storage = storage;
-  }
+	public Warehouse(int row, int column) {
+		this.row = row;
+		this.column = column;
+	}
 
 }

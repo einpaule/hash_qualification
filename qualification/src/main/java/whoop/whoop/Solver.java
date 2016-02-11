@@ -13,7 +13,8 @@ public abstract class Solver {
   protected final int deadline;
   protected final int maximumLoad;
   protected final int numberOfProducts;
-  protected final Map<Integer, Integer> weights;
+  protected final List<Product> products;
+
   protected final int amountOfWarehouses;
   protected final List<Warehouse> warehouses;
   protected final int amountOfOrders;
@@ -30,7 +31,7 @@ public abstract class Solver {
     this.maximumLoad = Integer.parseInt(firstElements[4]);
 
     this.numberOfProducts = Integer.parseInt(lines[1]);
-    this.weights = extractWeights(lines[2]);
+    this.products = extractProducts(lines[2]);
 
     this.amountOfWarehouses = Integer.parseInt(lines[3]);
     this.warehouses = extractWarehouses(4, lines);
@@ -49,20 +50,16 @@ public abstract class Solver {
 
       int amountOfOrderedProducts = Integer.parseInt(lines[i + 1]);
 
-      List<Product> products = new ArrayList<>();
-
       String[] orderedProductsArray = lines[i + 2].split(" ");
+      List<Product> orderedProducts = new ArrayList<>();
       for (int j = 0; j < amountOfOrderedProducts; j++) {
         int productId = Integer.parseInt(orderedProductsArray[j]);
-        Product p = new Product(productId, weights.get(j));
-        products.add(p);
+        orderedProducts.add(products.get(productId));
       }
 
-      Order newOrder = new Order();
-      newOrder.destinationRow = locationRow;
-      newOrder.destinationColumn = locationColumn;
+      Order newOrder = new Order(locationRow, locationColumn);
 
-      newOrder.items = products;
+      newOrder.items = orderedProducts;
 
       orders.add(newOrder);
     }
@@ -79,26 +76,23 @@ public abstract class Solver {
       int locationColumn = Integer.parseInt(location[1]);
 
       Map<Integer, Integer> availability = extractAvailability(lines[i + 1]);
-      Warehouse warehouse = new Warehouse();
-
-      warehouse.setRowPosition(locationRow);
-      warehouse.setColumnPosition(locationColumn);
+      Warehouse warehouse = new Warehouse(locationRow, locationColumn);
 
       Map<Product, Integer> storage = getProducts(availability);
-      warehouse.setStorage(storage);
+      warehouse.storage = storage;
       warehouses.add(warehouse);
     }
     return warehouses;
   }
 
   private Map<Product, Integer> getProducts(Map<Integer, Integer> availability) {
-    Map<Product, Integer> products = new HashMap<>();
+    Map<Product, Integer> available_products = new HashMap<>();
 
     for (Entry<Integer, Integer> entry : availability.entrySet()) {
-      products.put(new Product(entry.getKey(), weights.get(entry.getKey())), entry.getValue());
+      available_products.put(products.get(entry.getKey()), entry.getValue());
     }
 
-    return products;
+    return available_products;
   }
 
   private Map<Integer, Integer> extractAvailability(String availabilityLine) {
@@ -110,14 +104,15 @@ public abstract class Solver {
     return availability;
   }
 
-  private Map<Integer, Integer> extractWeights(String weights) {
-    Map<Integer, Integer> weightHash = new HashMap<>();
+  private List<Product> extractProducts(String weights) {
+    List<Product> products = new ArrayList<>();
 
     String[] weightsArray = weights.split(" ");
     for (int i = 0; i < weightsArray.length; i++) {
-      weightHash.put(i, Integer.parseInt(weightsArray[i]));
+      int weight = Integer.parseInt(weightsArray[i]);
+      products.add(new Product(i, weight));
     }
-    return weightHash;
+    return products;
   }
 
   public abstract List<Command> solve();

@@ -1,8 +1,7 @@
 package whoop.whoop;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -33,11 +32,11 @@ public class ParameterParserTest extends TestCase {
     Assert.assertEquals(solver.numberOfProducts, 400);
     Assert.assertEquals(solver.amountOfWarehouses, 10);
 
-    Assert.assertEquals(solver.weights.getClass(), (new HashMap<Integer, Integer>()).getClass());
-    Assert.assertEquals(solver.weights.size(), solver.numberOfProducts);
-    for (Entry<Integer, Integer> product : solver.weights.entrySet()) {
-      Assert.assertTrue(product.getKey() < 400);
-      Assert.assertTrue(product.getValue() > 0);
+    Assert.assertEquals(solver.products.getClass(), (new ArrayList<Product>()).getClass());
+    Assert.assertEquals(solver.products.size(), solver.numberOfProducts);
+    for (Product product : solver.products) {
+      Assert.assertTrue(product.typeId < 400);
+      Assert.assertTrue(product.weight > 0);
     }
   }
 
@@ -46,21 +45,21 @@ public class ParameterParserTest extends TestCase {
 
     Assert.assertEquals(solver.warehouses.size(), 10);
 
-    Assert.assertEquals(solver.warehouses.get(0).rowPosition, 113);
-    Assert.assertEquals(solver.warehouses.get(0).columnPosition, 179);
-    Assert.assertEquals(solver.warehouses.get(0).getStorage().get(new Product(0, 73)), new Integer(0));
-    Assert.assertEquals(solver.warehouses.get(0).getStorage().get(new Product(2, 84)), new Integer(5));
+    Assert.assertEquals(solver.warehouses.get(0).row, 113);
+    Assert.assertEquals(solver.warehouses.get(0).column, 179);
+    Assert.assertEquals(solver.warehouses.get(0).storage.get(new Product(0, 73)), new Integer(0));
+    Assert.assertEquals(solver.warehouses.get(0).storage.get(new Product(2, 84)), new Integer(5));
 
-    Assert.assertEquals(solver.warehouses.get(1).rowPosition, 234);
-    Assert.assertEquals(solver.warehouses.get(1).columnPosition, 599);
+    Assert.assertEquals(solver.warehouses.get(1).row, 234);
+    Assert.assertEquals(solver.warehouses.get(1).column, 599);
   }
 
   public void testBusyDaysInParsingOrders() {
     Solver solver = new ConcreteSolver(BUSY_DAY_IN);
 
     Assert.assertEquals(solver.orders.size(), 1250);
-    Assert.assertEquals(solver.orders.get(0).destinationRow, 340);
-    Assert.assertEquals(solver.orders.get(0).destinationColumn, 371);
+    Assert.assertEquals(solver.orders.get(0).row, 340);
+    Assert.assertEquals(solver.orders.get(0).column, 371);
     Assert.assertEquals(solver.orders.get(0).items.size(), 8);
   }
 }

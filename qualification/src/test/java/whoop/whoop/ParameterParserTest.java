@@ -54,6 +54,15 @@ public class ParameterParserTest extends TestCase {
     Assert.assertEquals(solver.warehouses.get(1).column, 599);
   }
 
+  public void testBusyDaysInParsingDrones() {
+    Solver solver = new ConcreteSolver(BUSY_DAY_IN);
+
+    Assert.assertEquals(solver.drones.size(), solver.dronesAvailable);
+    Assert.assertEquals(solver.orders.get(0).row, 340);
+    Assert.assertEquals(solver.orders.get(0).column, 371);
+    Assert.assertEquals(solver.orders.get(0).items.size(), 8);
+  }
+
   public void testBusyDaysInParsingOrders() {
     Solver solver = new ConcreteSolver(BUSY_DAY_IN);
 

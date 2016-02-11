@@ -10,6 +10,7 @@ public abstract class Solver {
   protected final int rows;
   protected final int columns;
   protected final int dronesAvailable;
+  protected final List<Drone> drones;
   protected final int deadline;
   protected final int maximumLoad;
   protected final int numberOfProducts;
@@ -38,6 +39,17 @@ public abstract class Solver {
 
     this.amountOfOrders = Integer.parseInt(lines[4 + 2 * amountOfWarehouses]);
     this.orders = extractOrders(4 + 2 * amountOfWarehouses + 1, lines);
+
+    this.drones = createDrones(dronesAvailable, maximumLoad);
+  }
+
+  private List<Drone> createDrones(int amount, int load) {
+    List<Drone> drones = new ArrayList<>();
+
+    for (int i = 0; i < amount; i++) {
+      drones.add(new Drone(i, load));
+    }
+    return drones;
   }
 
   private List<Order> extractOrders(int start, String[] lines) {

@@ -6,15 +6,15 @@ public class Drone {
   public int x;
   public int y;
 
-  public Drone(int id, int payload){
-	this.id = id;
+  public Drone(int id, int payload) {
+    this.id = id;
     this.payload = payload;
     this.x = 0;
     this.y = 0;
   }
 
   public int[] getPosition() {
-    return new int[]{x, y};
+    return new int[] { x, y };
   }
 
   public void setPosition(int[] position) {

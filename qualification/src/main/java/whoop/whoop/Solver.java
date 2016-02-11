@@ -81,6 +81,7 @@ public abstract class Solver {
 
   private List<Warehouse> extractWarehouses(int start, String[] lines) {
     List<Warehouse> warehouses = new ArrayList<>();
+    int warehouseId = 0;
     for (int i = start; i <= (amountOfWarehouses + 1) * 2; i += 2) {
       String[] location = lines[i].split(" ");
 
@@ -88,11 +89,12 @@ public abstract class Solver {
       int locationColumn = Integer.parseInt(location[1]);
 
       Map<Integer, Integer> availability = extractAvailability(lines[i + 1]);
-      Warehouse warehouse = new Warehouse(locationRow, locationColumn);
+      Warehouse warehouse = new Warehouse(warehouseId, locationRow, locationColumn);
 
       Map<Product, Integer> storage = getProducts(availability);
       warehouse.storage = storage;
       warehouses.add(warehouse);
+      warehouseId++;
     }
     return warehouses;
   }

@@ -1,5 +1,8 @@
 package whoop.whoop;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Parameter {
 
   public Parameter(String input) {
@@ -14,6 +17,17 @@ public class Parameter {
     this.maximumLoad = Integer.parseInt(firstElements[4]);
 
     this.numberOfProducts = Integer.parseInt(lines[1]);
+    this.weights = extractWeights(lines[2]);
+  }
+
+  private Map<Integer, Integer> extractWeights(String weights) {
+    Map<Integer, Integer> weightHash = new HashMap<>();
+
+    String[] weightsArray = weights.split(" ");
+    for (int i = 0; i < weightsArray.length; i++) {
+      weightHash.put(i, Integer.parseInt(weightsArray[i]));
+    }
+    return weightHash;
   }
 
   public int rows;
@@ -23,5 +37,6 @@ public class Parameter {
   public int maximumLoad;
 
   public int numberOfProducts;
+  public Map<Integer, Integer> weights;
 
 }

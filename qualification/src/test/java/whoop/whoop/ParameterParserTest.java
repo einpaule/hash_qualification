@@ -45,6 +45,5 @@ public class ParameterParserTest extends TestCase {
       Assert.assertTrue(product.getValue() > 0);
     }
     
-    p.wa
   }
 }

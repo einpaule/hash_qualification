@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class Parameter {
-
   public Parameter(String input) {
 
     String[] lines = input.split("\n");
@@ -23,12 +22,46 @@ public class Parameter {
     this.weights = extractWeights(lines[2]);
 
     this.amountOfWarehouses = Integer.parseInt(lines[3]);
-    // this.warehouses = extractWarehouses(4, lines);
+    this.warehouses = extractWarehouses(4, lines);
+
+    this.amountOfOrders = Integer.parseInt(lines[4 + 2 * amountOfWarehouses]);
+    this.orders = extractOrders(4 + 2 * amountOfWarehouses + 1, lines);
+  }
+
+  private List<Order> extractOrders(int start, String[] lines) {
+    List<Order> orders = new ArrayList<>();
+    for (int i = start; i < (amountOfOrders) * 3 + start; i += 3) {
+      String[] location = lines[i].split(" ");
+
+      int locationRow = Integer.parseInt(location[0]);
+      int locationColumn = Integer.parseInt(location[1]);
+
+      int amountOfOrderedProducts = Integer.parseInt(lines[i + 1]);
+
+      List<Product> products = new ArrayList<>();
+
+      String[] orderedProductsArray = lines[i + 2].split(" ");
+      for (int j = 0; j < amountOfOrderedProducts; j++) {
+        int productId = Integer.parseInt(orderedProductsArray[j]);
+        Product p = new Product(productId, weights.get(j));
+        products.add(p);
+      }
+
+      Order newOrder = new Order();
+      newOrder.destinationRow = locationRow;
+      newOrder.destinationColumn = locationColumn;
+
+      newOrder.items = products;
+
+      orders.add(newOrder);
+    }
+
+    return orders;
   }
 
   private List<Warehouse> extractWarehouses(int start, String[] lines) {
     List<Warehouse> warehouses = new ArrayList<>();
-    for (int i = start; i < amountOfWarehouses; i += 2) {
+    for (int i = start; i <= (amountOfWarehouses + 1) * 2; i += 2) {
       String[] location = lines[i].split(" ");
 
       int locationRow = Integer.parseInt(location[0]);
@@ -43,16 +76,15 @@ public class Parameter {
       Map<Product, Integer> storage = getProducts(availability);
       warehouse.setStorage(storage);
       warehouses.add(warehouse);
-
     }
-    return null;
+    return warehouses;
   }
 
   private Map<Product, Integer> getProducts(Map<Integer, Integer> availability) {
     Map<Product, Integer> products = new HashMap<>();
 
     for (Entry<Integer, Integer> entry : availability.entrySet()) {
-      products.put(new Product(new ProductType(entry.getKey(), weights.get(entry.getKey()))), entry.getValue());
+      products.put(new Product(entry.getKey(), weights.get(entry.getKey())), entry.getValue());
     }
 
     return products;
@@ -77,6 +109,9 @@ public class Parameter {
     return weightHash;
   }
 
+  public List<Order> orders;
+  public int amountOfOrders;
+  public List<Warehouse> warehouses;
   public int amountOfWarehouses;
   public int rows;
   public int columns;

@@ -1,19 +1,42 @@
 package whoop.whoop;
 
 public class Product {
-  public ProductType type;
-  protected int weight;
+  public int typeId;
+  public int weight;
 
-  public Product(ProductType type) {
-    super();
-    this.type = type;
+  public Product(int typeId, int weight) {
+    this.weight = weight;
+    this.typeId = typeId;
   }
 
-  public int getTypeId() {
-    return this.type.id;
+  @Override
+  public String toString() {
+    return "Product [id=" + typeId + ", weight=" + weight + "]";
   }
 
-  public int getWeight() {
-    return type.weight;
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + typeId;
+    result = prime * result + weight;
+    return result;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Product other = (Product) obj;
+    if (typeId != other.typeId)
+      return false;
+    if (weight != other.weight)
+      return false;
+    return true;
+  }
+  
 }

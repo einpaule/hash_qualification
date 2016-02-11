@@ -1,11 +1,11 @@
 package whoop.whoop;
 
-import java.util.Map;
+import java.util.List;
 
 public class Order {
 	
 	public int destinationRow;
 	public int destinationColumn;
-	public Map<ProductType, Integer> items;
+	public List<Product> items;
 
 }

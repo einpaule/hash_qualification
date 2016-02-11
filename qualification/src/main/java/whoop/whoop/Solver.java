@@ -54,6 +54,7 @@ public abstract class Solver {
 
   private List<Order> extractOrders(int start, String[] lines) {
     List<Order> orders = new ArrayList<>();
+    int orderId = 0;
     for (int i = start; i < (amountOfOrders) * 3 + start; i += 3) {
       String[] location = lines[i].split(" ");
 
@@ -69,11 +70,12 @@ public abstract class Solver {
         orderedProducts.add(products.get(productId));
       }
 
-      Order newOrder = new Order(locationRow, locationColumn);
+      Order newOrder = new Order(orderId, locationRow, locationColumn);
 
       newOrder.items = orderedProducts;
 
       orders.add(newOrder);
+      orderId++;
     }
 
     return orders;
